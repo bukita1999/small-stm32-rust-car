@@ -1,0 +1,97 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug STM32F103C8T6",
+            "type": "probe-rs-debug",
+            "request": "launch",
+            "chip": "STM32F103C8Tx",
+            "flashingConfig": {
+                "flashingEnabled": true,
+                "resetAfterFlashing": true,
+                "haltAfterReset": true
+            },
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "probe-rs",
+            "runtimeArgs": [
+                "dap-server",
+                "--chip",
+                "STM32F103C8Tx",
+                "--protocol",
+                "swd"
+            ],
+            "coreConfigs": [
+                {
+                    "coreIndex": 0,
+                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/debug/${workspaceFolderBasename}",
+                    "rttEnabled": true,
+                    "options": {
+                        "env": {
+                            "DEFMT_LOG": "debug"
+                        }
+                    }
+                }
+            ],
+            "consoleLogLevel": "Info",
+            "wireProtocol": "Swd"
+        },
+        {
+            "name": "Debug STM32F103C8T6 (Release)",
+            "type": "probe-rs-debug",
+            "request": "launch",
+            "chip": "STM32F103C8Tx",
+            "flashingConfig": {
+                "flashingEnabled": true,
+                "resetAfterFlashing": true,
+                "haltAfterReset": true
+            },
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "probe-rs",
+            "runtimeArgs": [
+                "dap-server",
+                "--chip",
+                "STM32F103C8Tx",
+                "--protocol",
+                "swd"
+            ],
+            "coreConfigs": [
+                {
+                    "coreIndex": 0,
+                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/release/${workspaceFolderBasename}",
+                    "rttEnabled": true,
+                    "options": {
+                        "env": {
+                            "DEFMT_LOG": "info"
+                        }
+                    }
+                }
+            ],
+            "consoleLogLevel": "Info",
+            "wireProtocol": "Swd"
+        },
+        {
+            "name": "Attach to STM32F103C8T6",
+            "type": "probe-rs-debug",
+            "request": "attach",
+            "chip": "STM32F103C8Tx",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "probe-rs",
+            "runtimeArgs": [
+                "dap-server",
+                "--chip",
+                "STM32F103C8Tx",
+                "--protocol",
+                "swd"
+            ],
+            "coreConfigs": [
+                {
+                    "coreIndex": 0,
+                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/debug/${workspaceFolderBasename}",
+                    "rttEnabled": true
+                }
+            ],
+            "consoleLogLevel": "Info",
+            "wireProtocol": "Swd"
+        }
+    ]
+}

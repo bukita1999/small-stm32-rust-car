@@ -1,6 +1,6 @@
 [target.'cfg(all(target_arch = "arm", target_os = "none"))']
-# TODO(2) replace `$CHIP` with your chip's name (see `probe-rs chip list` output)
-runner = "probe-rs run --chip $CHIP"
+# STM32F103C8T6 configuration
+runner = "probe-rs run --chip STM32F103C8Tx"
 # runner = ["probe-rs", "run", "--chip", "$CHIP", "--log-format", "{L} {s}"]
 
 rustflags = [
@@ -13,11 +13,11 @@ rustflags = [
 ]
 
 [build]
-# TODO(3) Adjust the compilation target.
+# STM32F103C8T6 uses Cortex-M3 core
 # (`thumbv6m-*` is compatible with all ARM Cortex-M chips but using the right
 # target improves performance)
-target = "thumbv6m-none-eabi"    # Cortex-M0 and Cortex-M0+
-# target = "thumbv7m-none-eabi"    # Cortex-M3
+# target = "thumbv6m-none-eabi"    # Cortex-M0 and Cortex-M0+
+target = "thumbv7m-none-eabi"    # Cortex-M3
 # target = "thumbv7em-none-eabi"   # Cortex-M4 and Cortex-M7 (no FPU)
 # target = "thumbv7em-none-eabihf" # Cortex-M4F and Cortex-M7F (with FPU)
 

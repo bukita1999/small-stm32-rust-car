@@ -1,0 +1,133 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Debug",
+            "type": "cargo",
+            "command": "build",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Build Release",
+            "type": "cargo",
+            "command": "build",
+            "args": ["--release"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Flash and Run",
+            "type": "cargo",
+            "command": "run",
+            "args": [],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Flash and Run (Release)",
+            "type": "cargo",
+            "command": "run",
+            "args": ["--release"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Run Binary - Hello",
+            "type": "cargo",
+            "command": "run",
+            "args": ["--bin", "hello"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Clean",
+            "type": "cargo",
+            "command": "clean",
+            "args": [],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Check",
+            "type": "cargo",
+            "command": "check",
+            "args": [],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Clippy",
+            "type": "cargo",
+            "command": "clippy",
+            "args": ["--", "-D", "warnings"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Test",
+            "type": "cargo",
+            "command": "test",
+            "args": ["--lib"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        }
+    ]
+}
