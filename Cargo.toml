@@ -46,6 +46,11 @@ name = "panic"
 path = "src/bin/panic.rs"
 test = false
 
+[[bin]]
+name = "mecanum_car"
+path = "src/bin/mecanum_car.rs"
+test = false
+
 [lib]
 harness = false
 
@@ -61,8 +66,31 @@ defmt = "1.0"
 defmt-rtt = "1.0"
 panic-probe = { version = "1.0", features = ["print-defmt"] }
 cortex-m-semihosting = "0.5.0"
-# TODO(4) enter your HAL here
-# some-hal = "1.2.3"
+# STM32F103 HAL for hardware abstraction
+stm32f1xx-hal = { version = "0.10", features = ["stm32f103", "rt"] }
+
+# RTIC for real-time concurrency
+rtic = { version = "2.1", features = ["thumbv7-backend"] }
+rtic-monotonics = { version = "2.0", features = ["systick"] }
+
+# USB CDC ACM support
+usb-device = "0.3"
+usbd-serial = "0.2"
+
+# I2C and PWM driver for PCA9685
+embedded-hal = "1.0"
+nb = "1.1"
+pca9685 = "0.4"
+
+# Ring buffer for USB communication
+heapless = "0.8"
+
+# Math utilities
+libm = "0.2"
+micromath = "2.1"
+
+# Serial port utilities
+nb = "1.1"
 
 [dev-dependencies]
 defmt-test = "0.3"
