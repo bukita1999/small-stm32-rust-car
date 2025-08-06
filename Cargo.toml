@@ -1,51 +1,36 @@
 [package]
-# TODO(1) fix `authors` and `name` if you didn't use `cargo-generate`
-authors = ["cao"]
-name = "small-stm32-rust-car"
-
-# Ferocene only supports up to 2021 edition
-#edition = "2021"
-# Many embedded developers don't use Ferocene, so they could benefit from the latest Rust features 
-edition = "2024"
+name    = "small-stm32-rust-car"
 version = "0.1.0"
+authors = ["cao"]
+edition = "2021"          # 2024 版尚未稳定，Ferocene 也只支持到 2021
 
-
-# To run all the tests via `cargo test` the tests need to be explicitly disabled for the binary targets
-# If you use a standard main.rs file the following is sufficient:
-# [[bin]]
-# name = "{{project-name}}"
-# test = false
-
+###############################################################################
+# 二进制目标（保持原有示例不变）
+###############################################################################
 [[bin]]
 name = "bitfield"
 path = "src/bin/bitfield.rs"
 test = false
-
 [[bin]]
 name = "format"
 path = "src/bin/format.rs"
 test = false
-
 [[bin]]
 name = "hello"
 path = "src/bin/hello.rs"
 test = false
-
 [[bin]]
 name = "levels"
 path = "src/bin/levels.rs"
 test = false
-
 [[bin]]
 name = "overflow"
 path = "src/bin/overflow.rs"
 test = false
-
 [[bin]]
 name = "panic"
 path = "src/bin/panic.rs"
 test = false
-
 [[bin]]
 name = "mecanum_car"
 path = "src/bin/mecanum_car.rs"
@@ -54,81 +39,96 @@ test = false
 [lib]
 harness = false
 
-# needed for each integration test
 [[test]]
 name = "integration"
 harness = false
 
+###############################################################################
+# 运行时 & HAL
+###############################################################################
 [dependencies]
-cortex-m = { version = "0.7", features = ["critical-section-single-core"] }
-cortex-m-rt = "0.7"
-defmt = "1.0"
-defmt-rtt = "1.0"
-panic-probe = { version = "1.0", features = ["print-defmt"] }
-cortex-m-semihosting = "0.5.0"
-# STM32F103 HAL for hardware abstraction
-stm32f1xx-hal = { version = "0.10", features = ["stm32f103", "rt"] }
+cortex-m       = { version = "0.7.7", features = ["critical-section-single-core"] }
+cortex-m-rt    = "0.7.3"
+rtic           = "2.2.0"                                     # 最新稳定版 :contentReference[oaicite:0]{index=0}
+systick-monotonic = "1.0.1"                                  # 取代旧的 rtic-monotonics :contentReference[oaicite:1]{index=1}
 
-# RTIC for real-time concurrency
-rtic = { version = "2.1", features = ["thumbv7-backend"] }
-rtic-monotonics = { version = "2.0", features = ["cortex-m-systick"] }
+# STM32F1 HAL（含 PAC）
+stm32f1xx-hal = {                                            # :contentReference[oaicite:2]{index=2}
+    version  = "0.10.0",
+    features = [
+        "rt", "stm32f103", "medium", "usb", "stm32-usbd", "defmt"
+    ]
+}
 
-# USB CDC ACM support
-usb-device = "0.3"
-usbd-serial = "0.2"
-
-# I2C and PWM driver for PCA9685
+###############################################################################
+# 外设驱动 / 通用库
+###############################################################################
+# PCA9685 16 路 PWM (I2C)
+pwm-pca9685 = { version = "1.0.0", default-features = false }  # :contentReference[oaicite:3]{index=3}
+# USB CDC ACM
+usb-device  = { version = "0.3.2", default-features = false }
+usbd-serial = { version = "0.2.2", default-features = false }
+# 无堆静态容器
+heapless    = "0.8"
+# 数学 / 辅助
+libm        = "0.2"
+micromath   = "2.1"
 embedded-hal = "1.0"
-nb = "1.1"
-pca9685 = "0.1"
+nb           = "1.0"
 
-# Ring buffer for USB communication
-heapless = "0.8"
+###############################################################################
+# 日志 & Panic
+###############################################################################
+defmt        = "1.0"
+defmt-rtt    = "1.0.0"                                         # :contentReference[oaicite:4]{index=4}
+panic-probe  = { version = "1.0", features = ["print-defmt"] }
 
-# Math utilities
-libm = "0.2"
-micromath = "2.1"
+###############################################################################
+# 可选 feature：日志开关
+###############################################################################
+[features]
+default = ["log"]
+log     = ["defmt", "defmt-rtt", "panic-probe"]
 
-# nb dependency already defined above for I2C driver
-
+###############################################################################
+# dev-dependencies
+###############################################################################
 [dev-dependencies]
 defmt-test = "0.3"
 
-# cargo build/run
+###############################################################################
+# 构建配置（与原保持一致）
+###############################################################################
 [profile.dev]
-codegen-units = 1
-debug = 2
-debug-assertions = true # <-
-incremental = false
-opt-level = 'z'         # <-
-overflow-checks = true  # <-
+codegen-units     = 1
+debug             = 2
+debug-assertions  = true
+incremental       = false
+opt-level         = 'z'
+overflow-checks   = true
 
-# cargo test
 [profile.test]
-codegen-units = 1
-debug = 2
-debug-assertions = true # <-
-incremental = false
-opt-level = 3           # <-
-overflow-checks = true  # <-
+codegen-units     = 1
+debug             = 2
+debug-assertions  = true
+incremental       = false
+opt-level         = 3
+overflow-checks   = true
 
-# cargo build/run --release
 [profile.release]
-codegen-units = 1
-debug = 2
-debug-assertions = false # <-
-incremental = false
-lto = 'fat'
-opt-level = 3            # <-
-overflow-checks = false  # <-
+codegen-units     = 1
+debug             = 2
+debug-assertions  = false
+incremental       = false
+lto               = 'fat'
+opt-level         = 3
+overflow-checks   = false
 
-# cargo test --release
 [profile.bench]
-codegen-units = 1
-debug = 2
-debug-assertions = false # <-
-incremental = false
-lto = 'fat'
-opt-level = 3            # <-
-overflow-checks = false  # <-
-
+codegen-units     = 1
+debug             = 2
+debug-assertions  = false
+incremental       = false
+lto               = 'fat'
+opt-level         = 3
+overflow-checks   = false

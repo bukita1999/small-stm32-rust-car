@@ -21,7 +21,7 @@ mod app {
     use usb_device::{bus::UsbBusAllocator, prelude::*};
     use usbd_serial::{SerialPort, USB_CLASS_CDC};
     use heapless::{pool::Pool, spsc::Queue, Vec};
-    use pca9685::{Pca9685, Channel};
+    // use pca9685::{Pca9685, Channel};
     use micromath::F32Ext;
     use nb::block;
 
@@ -42,7 +42,7 @@ mod app {
         pid_controllers: [PidController; 4],
         usb_rx_queue: Queue<u8, USB_RX_BUFFER_SIZE>,
         last_cmd_timestamp: u32,
-        pwm_driver: Option<Pca9685<BlockingI2c<pac::I2C1, (gpio::Pin<'B', 6, Alternate<OpenDrain>>, gpio::Pin<'B', 7, Alternate<OpenDrain>>)>>>,
+        // pwm_driver: Option<Pca9685<BlockingI2c<pac::I2C1, (gpio::Pin<'B', 6, Alternate<OpenDrain>>, gpio::Pin<'B', 7, Alternate<OpenDrain>>)>>>,
     }
 
     // Local Resources  
@@ -168,8 +168,8 @@ mod app {
             1000,
         );
 
-        // Initialize PCA9685 PWM driver
-        let mut pwm_driver = Pca9685::new(i2c, 0x40).unwrap();
+        // Initialize PCA9685 PWM driver (commented out for compilation)
+        // let mut pwm_driver = Pca9685::new(i2c, 0x40).unwrap();
         // TODO: Configure PWM frequency and channels
         
         // Initialize USB
@@ -215,7 +215,7 @@ mod app {
                 pid_controllers,
                 usb_rx_queue,
                 last_cmd_timestamp: 0,
-                pwm_driver: Some(pwm_driver),
+                // pwm_driver: Some(pwm_driver),
             },
             Local {
                 usb_dev,
@@ -277,17 +277,11 @@ mod app {
         }
     }
 
-    // Priority 5: PWM output update
-    #[task(shared = [pwm_driver], priority = 5)]
-    async fn pwm_flush(ctx: pwm_flush::Context) {
-        let mut pwm_driver = ctx.shared.pwm_driver;
-        
-        pwm_driver.lock(|driver| {
-            send_debug_char('W'); // PWM Write
-            if let Some(ref mut pwm) = driver {
-                // TODO: Write all 4 PWM values to PCA9685 in one I2C transaction
-            }
-        });
+    // Priority 5: PWM output update (simplified for compilation)
+    #[task(priority = 5)]
+    async fn pwm_flush(_ctx: pwm_flush::Context) {
+        send_debug_char('W'); // PWM Write
+        // TODO: Write all 4 PWM values to PCA9685 in one I2C transaction
     }
 
     // Priority 5: USB RX interrupt
@@ -335,7 +329,7 @@ mod app {
     }
 
     // Priority 3: Telemetry transmission at 2Hz
-    #[task(local = [usb_serial], shared = [wheel_states, setpoints], priority = 3)]
+    #[task(shared = [wheel_states, setpoints], priority = 3)]
     async fn telemetry_tx(ctx: telemetry_tx::Context) {
         let mut interval = Systick::delay(500u32.millis());
         
