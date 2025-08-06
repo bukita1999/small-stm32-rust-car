@@ -1,0 +1,8 @@
+/* Memory layout for STM32F103C8T6 */
+MEMORY
+{
+  /* NOTE K = KiBi = 1024 bytes */
+  /* STM32F103C8T6 has 64K Flash and 20K RAM */
+  FLASH : ORIGIN = 0x08000000, LENGTH = 64K
+  RAM : ORIGIN = 0x20000000, LENGTH = 20K
+}

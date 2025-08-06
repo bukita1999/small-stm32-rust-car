@@ -49,22 +49,17 @@ harness = false
 [dependencies]
 cortex-m       = { version = "0.7.7", features = ["critical-section-single-core"] }
 cortex-m-rt    = "0.7.3"
-rtic           = "2.2.0"                                     # 最新稳定版 :contentReference[oaicite:0]{index=0}
-systick-monotonic = "1.0.1"                                  # 取代旧的 rtic-monotonics :contentReference[oaicite:1]{index=1}
+rtic           = { version = "2.2.0", features = ["thumbv7-backend"] }
+systick-monotonic = "1.0.1"
 
 # STM32F1 HAL（含 PAC）
-stm32f1xx-hal = {                                            # :contentReference[oaicite:2]{index=2}
-    version  = "0.10.0",
-    features = [
-        "rt", "stm32f103", "medium", "usb", "stm32-usbd", "defmt"
-    ]
-}
+stm32f1xx-hal = { version = "0.10.0", features = ["rt", "stm32f103", "medium"] }
 
 ###############################################################################
 # 外设驱动 / 通用库
 ###############################################################################
 # PCA9685 16 路 PWM (I2C)
-pwm-pca9685 = { version = "1.0.0", default-features = false }  # :contentReference[oaicite:3]{index=3}
+pwm-pca9685 = { version = "1.0.0", default-features = false }
 # USB CDC ACM
 usb-device  = { version = "0.3.2", default-features = false }
 usbd-serial = { version = "0.2.2", default-features = false }
@@ -75,20 +70,20 @@ libm        = "0.2"
 micromath   = "2.1"
 embedded-hal = "1.0"
 nb           = "1.0"
+cortex-m-semihosting = "0.5.0"
 
 ###############################################################################
 # 日志 & Panic
 ###############################################################################
 defmt        = "1.0"
-defmt-rtt    = "1.0.0"                                         # :contentReference[oaicite:4]{index=4}
+defmt-rtt    = "1.0.0"
 panic-probe  = { version = "1.0", features = ["print-defmt"] }
 
 ###############################################################################
 # 可选 feature：日志开关
 ###############################################################################
 [features]
-default = ["log"]
-log     = ["defmt", "defmt-rtt", "panic-probe"]
+default = []
 
 ###############################################################################
 # dev-dependencies
