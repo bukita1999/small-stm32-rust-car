@@ -9,9 +9,10 @@
             "flashingConfig": {
                 "flashingEnabled": true,
                 "resetAfterFlashing": true,
-                "haltAfterReset": true
+                "haltAfterReset": false
             },
             "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build mecanum_car",
             "runtimeExecutable": "probe-rs",
             "runtimeArgs": [
                 "dap-server",
@@ -23,7 +24,7 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/debug/${workspaceFolderBasename}",
+                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/debug/mecanum_car",
                     "rttEnabled": true,
                     "options": {
                         "env": {
@@ -57,7 +58,7 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/release/${workspaceFolderBasename}",
+                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/release/mecanum_car",
                     "rttEnabled": true,
                     "options": {
                         "env": {
@@ -86,7 +87,7 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/debug/${workspaceFolderBasename}",
+                    "programBinary": "${workspaceFolder}/target/thumbv7m-none-eabi/debug/mecanum_car",
                     "rttEnabled": true
                 }
             ],

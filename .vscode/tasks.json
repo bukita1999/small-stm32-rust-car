@@ -61,10 +61,38 @@
             "problemMatcher": "$rustc"
         },
         {
+            "label": "Build mecanum_car",
+            "type": "cargo",
+            "command": "build",
+            "args": ["--bin", "mecanum_car"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
             "label": "Run Binary - Hello",
             "type": "cargo",
             "command": "run",
             "args": ["--bin", "hello"],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": "$rustc"
+        },
+        {
+            "label": "Run Binary - mecanum_car",
+            "type": "cargo",
+            "command": "run",
+            "args": ["--bin", "mecanum_car"],
             "group": "test",
             "presentation": {
                 "echo": true,
